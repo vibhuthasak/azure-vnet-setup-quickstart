@@ -6,7 +6,7 @@ param nsgName string = 'myNsg'
 
 param subnets array = []
 
-module vnet './modules/vnet.bicep' = {
+module vnetModule './modules/networking/vnet.bicep' = {
   name: 'vnetDeployment'
   params: {
     vnetName: vnetName
@@ -15,7 +15,7 @@ module vnet './modules/vnet.bicep' = {
   }
 }
 
-module nsg './modules/nsg.bicep' = {
+module nsgModule './modules/networking/nsg.bicep' = {
   name: 'nsgDeployment'
   params: {
     nsgName: nsgName
@@ -23,13 +23,17 @@ module nsg './modules/nsg.bicep' = {
   }
 }
 
-module subnetModules './modules/subnet.bicep' = [for (subnet, i) in subnets: {
+module subnetModules './modules/networking/subnet.bicep' = [for (subnet, i) in subnets: {
   name: 'subnet-${i+1}-deployment'
   params: {
     subnetName: 'subnet-${i+1}'
-    vnetName: vnet.outputs.vnetName
+    vnetName: vnetModule.outputs.vnetName
     addressPrefix: subnet.prefix
+    nsgId: nsgModule.outputs.nsgId
   }
+  dependsOn: [
+    vnetModule, nsgModule
+  ]
 }]
 
 // module nsgAssociations './modules/nsg-association.bicep' = [for subnet in subnetModules: {
