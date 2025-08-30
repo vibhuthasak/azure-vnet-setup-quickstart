@@ -47,10 +47,14 @@ module subnetModules './modules/networking/subnet.bicep' = [
   }
 ]
 
-// module nsgAssociations './modules/nsg-association.bicep' = [for subnet in subnetModules: {
-//   name: '${subnet.name}-nsg-association'
+// module vmModule './modules/compute/vm.bicep' = {
+//   scope: resourceGroup(computeRGName)
 //   params: {
-//     subnetId: subnet.outputs.subnetId
-//     nsgId: nsg.outputs.nsgId
+//     location: location
+//     subnetId: subnetModules[0].outputs.subnetId
+//     vmName: 'vm-1'
 //   }
-// }]
+//   dependsOn: [
+//     subnetModules
+//   ]
+// }
