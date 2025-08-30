@@ -3,6 +3,7 @@ param vnetName string = 'myVnet'
 param addressSpaces array = []
 
 param nsgName string = 'myNsg'
+param myIp string = '0.0.0.0/0'
 
 param subnets array = []
 
@@ -20,6 +21,7 @@ module nsgModule './modules/networking/nsg.bicep' = {
   params: {
     nsgName: nsgName
     location: location
+    myIp: myIp
   }
 }
 

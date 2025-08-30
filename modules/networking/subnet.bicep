@@ -12,6 +12,7 @@ resource subnet 'Microsoft.Network/virtualNetworks/subnets@2024-07-01' = {
   parent: vnet
   properties: {
     addressPrefix: addressPrefix
+    privateEndpointNetworkPolicies: 'Disabled'
     networkSecurityGroup: {
       id: nsgId
     }
