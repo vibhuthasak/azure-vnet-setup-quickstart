@@ -8,7 +8,6 @@ param myIp string = '0.0.0.0/0'
 param subnets array = []
 
 param networkRGName string = 'rg-network'
-// param computeRGName string = 'rg-compute-prod'
 
 module vnetModule './modules/networking/vnet.bicep' = {
   name: 'vnetDeployment'
@@ -46,15 +45,3 @@ module subnetModules './modules/networking/subnet.bicep' = [
     ]
   }
 ]
-
-// module vmModule './modules/compute/vm.bicep' = {
-//   scope: resourceGroup(computeRGName)
-//   params: {
-//     location: location
-//     subnetId: subnetModules[0].outputs.subnetId
-//     vmName: 'vm-1'
-//   }
-//   dependsOn: [
-//     subnetModules
-//   ]
-// }
